@@ -1,453 +1,3057 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SysAdmin MémoFiches</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SysAdmin MémoFiches</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    body{
-      font-family: "JetBrains Mono", monospace;
-      background:#080808;
-      color:#ccc;
-      min-height:100vh;
-    }
-
-    .container{
-      max-width:1100px;
-      margin:auto;
-      padding:30px 20px;
-    }
-
-    /* HEADER */
-
-    .header{
-      border-bottom:1px solid #1a1a1a;
-      padding-bottom:20px;
-      margin-bottom:30px;
-    }
-
-    .terminal{
-      font-size:11px;
-      color:#555;
-      letter-spacing:2px;
-      margin-bottom:5px;
-    }
-
-    h1{
-      font-size:24px;
-      color:#fff;
-    }
-
-    h1 span{
-      color:#1aff9c;
-    }
-
-    /* GRID */
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
-      gap:20px;
-    }
-
-    /* CARD */
-
-    .card{
-      border-radius:12px;
-      padding:22px;
-      border:1px solid;
-    }
-
-    .card.teal{
-      background:#0d2b22;
-      border-color:#0f4a38;
-    }
-
-    .card.amber{
-      background:#2a1f00;
-      border-color:#4a3700;
-    }
-
-    .card.coral{
-      background:#2b1208;
-      border-color:#4a2010;
-    }
-
-    .card-header{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:20px;
-    }
-
-    .card-header h2{
-      font-size:16px;
-      letter-spacing:1px;
-    }
-
-    .teal h2{
-      color:#1aff9c;
-    }
-
-    .amber h2{
-      color:#ffbf00;
-    }
-
-    .coral h2{
-      color:#ff6b47;
-    }
-
-    /* SECTION */
-
-    .section{
-      margin-bottom:20px;
-    }
-
-    .section-title{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:2px;
-      margin-bottom:10px;
-      padding-bottom:6px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-    }
-
-    /* COMMANDS */
-
-    .command{
-      background:#0a0a0a;
-      border-radius:6px;
-      padding:10px 12px;
-      margin-bottom:10px;
-      border:1px solid rgba(255,255,255,0.05);
-    }
-
-    .command-label{
-      font-size:11px;
-      color:#777;
-      margin-bottom:5px;
-      text-transform:uppercase;
-    }
-
-    .command code{
-      color:#1aff9c;
-      font-size:13px;
-      word-break:break-all;
-    }
-
-    .amber .command code{
-      color:#ffbf00;
-    }
-
-    .coral .command code{
-      color:#ff6b47;
-    }
-
-    /* TABLE */
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      overflow:hidden;
-      border-radius:8px;
-    }
-
-    th{
-      background:rgba(255,255,255,0.08);
-      text-align:left;
-      padding:10px;
-      font-size:11px;
-      text-transform:uppercase;
-      color:#aaa;
-    }
-
-    td{
-      padding:10px;
-      border-bottom:1px solid rgba(255,255,255,0.05);
-      font-size:12px;
-    }
-
-    tr:nth-child(even){
-      background:rgba(0,0,0,0.2);
-    }
-
-    /* CODE */
-
-    pre{
-      background:#0a0a0a;
-      padding:15px;
-      border-radius:8px;
-      overflow:auto;
-      border:1px solid rgba(255,255,255,0.08);
-    }
-
-    pre code{
-      color:#1aff9c;
-      line-height:1.6;
-      font-size:12px;
-    }
-
-    .amber pre code{
-      color:#ffbf00;
-    }
-
-    .coral pre code{
-      color:#ff6b47;
-    }
-
-    /* PATHS */
-
-    .paths{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .path{
-      background:#0a0a0a;
-      border-radius:6px;
-      padding:12px;
-      border:1px solid rgba(255,255,255,0.05);
-    }
-
-    .path-title{
-      font-size:11px;
-      color:#777;
-      margin-bottom:5px;
-      text-transform:uppercase;
-    }
-
-    .path-value{
-      font-size:12px;
-      color:#1aff9c;
-      word-break:break-all;
-    }
-
-    @media(max-width:700px){
-
-      .cards{
-        grid-template-columns:1fr;
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
-      .paths{
-        grid-template-columns:1fr;
+      :root {
+        --theme: "default";
+        --container-max: 1200px;
+        --search-width: 280px;
+        --search-gap: 16px;
       }
 
-    }
-  </style>
-</head>
+      /* THÈME DARK (Gris Classique) */
+      body.theme-neon {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d2d;
+        --bg-tertiary: #383838;
+        --text-primary: #ffffff;
+        --text-secondary: #e0e0e0;
+        --accent-1: #2563eb;
+        --accent-2: #1e40af;
+        --accent-3: #3b82f6;
+        --border-color: rgba(37, 99, 235, 0.3);
+        --header-border: rgba(37, 99, 235, 0.5);
+        --glow: rgba(37, 99, 235, 0.15);
+      }
 
-<body>
+      /* THÈME LIGHT (Blanc Classique) */
+      body.theme-matrix {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f5f5f5;
+        --bg-tertiary: #eeeeee;
+        --text-primary: #1a1a1a;
+        --text-secondary: #333333;
+        --accent-1: #dc2626;
+        --accent-2: #991b1b;
+        --accent-3: #ef4444;
+        --border-color: rgba(220, 38, 38, 0.2);
+        --header-border: rgba(220, 38, 38, 0.4);
+        --glow: rgba(220, 38, 38, 0.1);
+      }
 
-  <div class="container">
+      body.theme-matrix .search-input {
+        color: #333333;
+      }
 
-    <div class="header">
-      <div class="terminal">root@memo:~$</div>
-      <h1><span>SysAdmin</span> MémoFiches</h1>
+      body.theme-matrix .search-input::placeholder {
+        color: #666666;
+      }
+
+      /* THÈME BLUE (Bleu Marin Classique) */
+      body.theme-abyss {
+        --bg-primary: #0c1220;
+        --bg-secondary: #1a2a42;
+        --bg-tertiary: #273d62;
+        --text-primary: #ecf0f1;
+        --text-secondary: #bdc3c7;
+        --accent-1: #3498db;
+        --accent-2: #2980b9;
+        --accent-3: #1abc9c;
+        --border-color: rgba(52, 152, 219, 0.3);
+        --header-border: rgba(52, 152, 219, 0.5);
+        --glow: rgba(52, 152, 219, 0.15);
+      }
+
+      /* THÈME GREEN (Vert Classique) */
+      body.theme-synthwave {
+        --bg-primary: #0d1f0d;
+        --bg-secondary: #1a3a1a;
+        --bg-tertiary: #2a542a;
+        --text-primary: #f0f9f0;
+        --text-secondary: #d4e4d4;
+        --accent-1: #27ae60;
+        --accent-2: #1e8449;
+        --accent-3: #16a085;
+        --border-color: rgba(39, 174, 96, 0.3);
+        --header-border: rgba(39, 174, 96, 0.5);
+        --glow: rgba(39, 174, 96, 0.15);
+      }
+
+      body {
+        font-family: "JetBrains Mono", monospace;
+        background: var(--bg-primary);
+        color: var(--text-secondary);
+        min-height: 100vh;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-right: 80px;
+        margin-left: 0;
+      }
+
+      /* When search is floating we don't shift the whole body; the search
+         will be positioned next to the centered content using calc() so the
+         main page remains visually centered. */
+      body.search-floating {
+        margin-left: 0;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px 20px;
+      }
+
+      /* MAIN WRAPPER: adds padding when search floats to left */
+      /* Center the main content area. The inner .container keeps its
+         `max-width` and the wrapper centers it horizontally. When the
+         search floats we'll compute the search position so it sits just
+         left of the centered container. */
+      .main-wrapper {
+        padding-left: 0;
+        padding-right: 80px;
+        transition: padding-left 0.25s ease, transform 0.25s ease;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* Search results dropdown */
+      .search-results {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        max-height: 280px;
+        overflow: auto;
+        z-index: 300;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      }
+
+      .search-result-item {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+        cursor: pointer;
+        color: var(--text-primary);
+      }
+
+      .search-result-item:hover {
+        background: var(--bg-tertiary);
+      }
+
+      .search-result-item.active {
+        background: linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
+        border-left: 4px solid var(--accent-1);
+        padding-left: 8px;
+      }
+
+      .search-result-item .result-title {
+        font-weight: 700;
+        color: var(--accent-1);
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .search-result-item .result-snippet {
+        font-size: 12px;
+        color: var(--text-primary);
+        opacity: 0.9;
+      }
+
+      .search-result-item mark {
+        background: var(--accent-3);
+        color: var(--bg-primary);
+        padding: 0 4px;
+        border-radius: 3px;
+      }
+
+      /* SIDEBAR NAVIGATION */
+      .sidebar-nav {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 80px;
+        min-height: 100%;
+        background: var(--bg-secondary);
+        border-left: 2px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        overflow-y: auto;
+        z-index: 100;
+        padding: 10px 0;
+      }
+
+      .nav-item {
+        width: 100%;
+        padding: 15px 10px;
+        text-align: center;
+        cursor: pointer;
+        color: var(--text-secondary);
+        font-size: 12px;
+        border-left: 3px solid transparent;
+        transition: all 0.3s ease;
+        writing-mode: horizontal-tb;
+        text-decoration: none;
+      }
+
+      .nav-item:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border-left-color: var(--accent-1);
+      }
+
+      .nav-item.active {
+        background: var(--bg-tertiary);
+        color: var(--accent-1);
+        border-left: 3px solid var(--accent-1);
+        font-weight: bold;
+      }
+
+      /* HEADER & TOOLBAR */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        border-bottom: 2px solid var(--header-border);
+        padding-bottom: 20px;
+        padding-top: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .header-left {
+        flex: 1;
+      }
+
+      .terminal {
+        font-size: 11px;
+        color: var(--accent-1);
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        text-shadow: 0 0 10px var(--glow);
+      }
+
+      h1 {
+        font-size: 28px;
+        color: var(--text-primary);
+        font-weight: 900;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      h1 span {
+        color: var(--accent-1);
+        text-shadow: 0 0 20px var(--glow);
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      /* SEARCH BAR: TOP ON LOAD, LEFT ON SCROLL */
+      .search-container {
+        position: relative;
+        left: auto;
+        top: 20px;
+        width: min(620px, calc(100% - 40px));
+        z-index: 150;
+        background: var(--bg-primary);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        margin: 0 auto 20px auto;
+      }
+
+      body.search-floating .search-container {
+        position: fixed;
+        /* place the search just left of the centered .container */
+        left: calc(50% - (var(--container-max) / 2) - var(--search-width) - var(--search-gap));
+        top: 20px;
+        width: var(--search-width);
+        margin: 0;
+        border: none;
+        border-right: 2px solid var(--border-color);
+        border-radius: 0;
+      }
+
+      /* Mobile / narrow view fallback: keep search stuck to the viewport left */
+      @media (max-width: 920px) {
+        body.search-floating .search-container {
+          left: 0;
+          width: calc(min(80vw, var(--search-width)));
+        }
+        .main-wrapper {
+          padding-right: 16px;
+          justify-content: flex-start;
+        }
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 14px 18px;
+        background: var(--bg-secondary);
+        border: 2px solid var(--accent-1);
+        color: var(--text-primary);
+        border-radius: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px var(--glow);
+      }
+
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 25px var(--accent-1);
+        transform: scale(1.05);
+      }
+
+      /* THEME BUTTON */
+      .theme-btn,
+      .copy-btn {
+        padding: 10px 16px;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        color: var(--bg-primary);
+        border: none;
+        border-radius: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 0 15px var(--glow);
+      }
+
+      .theme-btn:hover,
+      .copy-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 0 5px 25px var(--glow);
+      }
+
+      .theme-btn:active,
+      .copy-btn:active {
+        transform: translate(0, 0);
+      }
+
+      /* THEME DROPDOWN MENU */
+      .theme-menu {
+        position: absolute;
+        display: none;
+        top: 50px;
+        right: 0;
+        background: var(--bg-secondary);
+        border: 2px solid var(--accent-1);
+        border-radius: 8px;
+        z-index: 100;
+        min-width: 180px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .theme-menu.active {
+        display: block;
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .theme-option {
+        padding: 12px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border-color);
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      .theme-option:last-child {
+        border-bottom: none;
+      }
+
+      .theme-option:hover {
+        background: var(--accent-1);
+        color: var(--bg-primary);
+      }
+
+      .theme-option.active {
+        background: var(--accent-1);
+        color: var(--bg-primary);
+        font-weight: bold;
+      }
+
+      /* GRID */
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      /* DOMAIN SECTION */
+      .domain-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .domain-title {
+        font-size: 18px;
+        color: var(--accent-1);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        padding: 15px 0;
+        border-bottom: 3px solid var(--accent-1);
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-shadow: 0 0 5px var(--glow);
+      }
+
+      .domain-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 20px;
+      }
+
+      /* CARD */
+      .card {
+        border-radius: 12px;
+        padding: 22px;
+        border: 2px solid var(--border-color);
+        background: var(--bg-tertiary);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .card:hover {
+        border-color: var(--accent-1);
+        box-shadow: 0 0 20px var(--glow);
+        transform: translateY(-5px);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .card-header h2 {
+        font-size: 16px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-1);
+        font-weight: bold;
+      }
+
+      /* SECTION */
+      .section {
+        margin-bottom: 22px;
+      }
+
+      .section-title {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--accent-2);
+        color: var(--accent-2);
+        font-weight: bold;
+      }
+
+      /* COMMANDS */
+      .command-wrapper {
+        position: relative;
+        margin-bottom: 12px;
+        group: 1;
+      }
+
+      .command {
+        background: var(--bg-primary);
+        border-radius: 6px;
+        padding: 12px 12px 12px 40px;
+        border-left: 3px solid var(--accent-1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+      }
+
+      .command:hover {
+        box-shadow: inset 0 0 15px var(--glow);
+      }
+
+      .command-content {
+        flex: 1;
+      }
+
+      .command-label {
+        font-size: 10px;
+        color: var(--accent-1);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+      }
+
+      .command code {
+        color: var(--text-primary);
+        font-size: 13px;
+        word-break: break-all;
+        font-weight: 600;
+      }
+
+      .copy-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        background: var(--accent-3);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        font-weight: bold;
+      }
+
+      .copy-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .copy-btn.copied {
+        background: var(--accent-2);
+      }
+
+      .card.apache .copy-btn {
+        background: #2563eb;
+      }
+
+      .card.proxy .copy-btn {
+        background: #ea580c;
+      }
+
+      .card.dns .copy-btn {
+        background: #dc2626;
+      }
+
+      /* TABLE */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      th {
+        background: var(--accent-1);
+        color: var(--bg-primary);
+        text-align: left;
+        padding: 12px;
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .card.apache th {
+        background: #2563eb;
+        color: #ffffff;
+      }
+
+      .card.proxy th {
+        background: #ea580c;
+        color: #ffffff;
+      }
+
+      .card.dns th {
+        background: #dc2626;
+        color: #ffffff;
+      }
+
+      td {
+        padding: 12px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 12px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
+
+      tr:nth-child(even) td {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      tr:hover td {
+        background: rgba(26, 255, 156, 0.05);
+      }
+
+      /* CARD COLORS - APACHE (Bleu Classique) */
+      .card.apache {
+        background: linear-gradient(
+          135deg,
+          rgba(30, 58, 138, 0.1),
+          rgba(37, 99, 235, 0.08)
+        );
+        border-color: rgba(37, 99, 235, 0.4);
+      }
+
+      .card.apache:hover {
+        border-color: rgba(37, 99, 235, 0.7);
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+      }
+
+      .card.apache .card-header h2 {
+        color: #2563eb;
+      }
+
+      .card.apache .section-title {
+        color: #3b82f6;
+        border-bottom-color: #3b82f6;
+      }
+
+      /* CARD COLORS - PROXY (Orange Classique) */
+      .card.proxy {
+        background: linear-gradient(
+          135deg,
+          rgba(217, 119, 6, 0.1),
+          rgba(249, 115, 22, 0.08)
+        );
+        border-color: rgba(217, 119, 6, 0.4);
+      }
+
+      .card.proxy:hover {
+        border-color: rgba(217, 119, 6, 0.7);
+        box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+      }
+
+      .card.proxy .card-header h2 {
+        color: #ea580c;
+      }
+
+      .card.proxy .section-title {
+        color: #f97316;
+        border-bottom-color: #f97316;
+      }
+
+      /* CARD COLORS - DNS (Rouge Classique) */
+      .card.dns {
+        background: linear-gradient(
+          135deg,
+          rgba(153, 27, 27, 0.1),
+          rgba(220, 38, 38, 0.08)
+        );
+        border-color: rgba(220, 38, 38, 0.4);
+      }
+
+      .card.dns:hover {
+        border-color: rgba(220, 38, 38, 0.7);
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+      }
+
+      .card.dns .card-header h2 {
+        color: #dc2626;
+      }
+
+      .card.dns .section-title {
+        color: #ef4444;
+        border-bottom-color: #ef4444;
+      }
+
+      /* CODE COLORS BY CARD TYPE */
+      .card.apache .command code {
+        color: #2563eb;
+      }
+
+      .card.proxy .command code {
+        color: #ea580c;
+      }
+
+      .card.dns .command code {
+        color: #dc2626;
+      }
+
+      .card.test .copy-btn {
+        background: #0891b2;
+      }
+
+      .card.test th {
+        background: #0891b2;
+        color: #ffffff;
+      }
+
+      /* CARD COLORS - TEST (Cyan Classique) */
+      .card.test {
+        background: linear-gradient(
+          135deg,
+          rgba(6, 106, 117, 0.1),
+          rgba(8, 145, 178, 0.08)
+        );
+        border-color: rgba(8, 145, 178, 0.4);
+      }
+
+      .card.test:hover {
+        border-color: rgba(8, 145, 178, 0.7);
+        box-shadow: 0 0 20px rgba(8, 145, 178, 0.3);
+      }
+
+      .card.test .card-header h2 {
+        color: #0891b2;
+      }
+
+      .card.test .section-title {
+        color: #06b6d4;
+        border-bottom-color: #06b6d4;
+      }
+
+      .card.test .command code {
+        color: #0891b2;
+      }
+
+      .card.test pre code {
+        color: #0891b2;
+      }
+
+      .card.top-match {
+        box-shadow: 0 0 40px rgba(255, 223, 93, 0.18);
+        border-color: var(--accent-3);
+        transform: translateY(-6px);
+      }
+
+      mark.search-match {
+        background: var(--accent-3);
+        color: var(--bg-primary);
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-weight: 700;
+        box-shadow: 0 0 12px var(--accent-3);
+      }
+
+      .card.search-match-visible {
+        border-color: var(--accent-1) !important;
+        box-shadow: 0 0 25px var(--accent-1) !important;
+      }
+
+      /* SSH CARD STYLES */
+      .card.ssh .copy-btn {
+        background: #a855f7;
+      }
+
+      .card.ssh th {
+        background: #a855f7;
+        color: #ffffff;
+      }
+
+      .card.ssh {
+        background: linear-gradient(
+          135deg,
+          rgba(126, 34, 206, 0.1),
+          rgba(168, 85, 247, 0.08)
+        );
+        border-color: rgba(168, 85, 247, 0.4);
+      }
+
+      .card.ssh:hover {
+        border-color: rgba(168, 85, 247, 0.7);
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+      }
+
+      .card.ssh .card-header h2 {
+        color: #a855f7;
+      }
+
+      .card.ssh .section-title {
+        color: #d8b4fe;
+        border-bottom-color: #d8b4fe;
+      }
+
+      .card.ssh .command code {
+        color: #a855f7;
+      }
+
+      .card.ssh pre code {
+        color: #a855f7;
+      }
+
+      /* CISCO SWITCH CARD STYLES */
+      .card.cisco-switch .copy-btn {
+        background: #14b8a6;
+      }
+
+      .card.cisco-switch th {
+        background: #14b8a6;
+        color: #ffffff;
+      }
+
+      .card.cisco-switch {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 114, 104, 0.1),
+          rgba(20, 184, 166, 0.08)
+        );
+        border-color: rgba(20, 184, 166, 0.4);
+      }
+
+      .card.cisco-switch:hover {
+        border-color: rgba(20, 184, 166, 0.7);
+        box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+      }
+
+      .card.cisco-switch .card-header h2 {
+        color: #14b8a6;
+      }
+
+      .card.cisco-switch .section-title {
+        color: #2dd4bf;
+        border-bottom-color: #2dd4bf;
+      }
+
+      .card.cisco-switch .command code {
+        color: #14b8a6;
+      }
+
+      .card.cisco-switch pre code {
+        color: #14b8a6;
+      }
+
+      /* CISCO ROUTER CARD STYLES */
+      .card.cisco-router .copy-btn {
+        background: #ec4899;
+      }
+
+      .card.cisco-router th {
+        background: #ec4899;
+        color: #ffffff;
+      }
+
+      .card.cisco-router {
+        background: linear-gradient(
+          135deg,
+          rgba(190, 24, 93, 0.1),
+          rgba(236, 72, 153, 0.08)
+        );
+        border-color: rgba(236, 72, 153, 0.4);
+      }
+
+      .card.cisco-router:hover {
+        border-color: rgba(236, 72, 153, 0.7);
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+      }
+
+      .card.cisco-router .card-header h2 {
+        color: #ec4899;
+      }
+
+      .card.cisco-router .section-title {
+        color: #f472b6;
+        border-bottom-color: #f472b6;
+      }
+
+      .card.cisco-router .command code {
+        color: #ec4899;
+      }
+
+      .card.cisco-router pre code {
+        color: #ec4899;
+      }
+
+      /* CISCO COMMON CARD STYLES */
+      .card.cisco-common .copy-btn {
+        background: #f59e0b;
+      }
+
+      .card.cisco-common th {
+        background: #f59e0b;
+        color: #ffffff;
+      }
+
+      .card.cisco-common {
+        background: linear-gradient(
+          135deg,
+          rgba(180, 83, 9, 0.1),
+          rgba(245, 158, 11, 0.08)
+        );
+        border-color: rgba(245, 158, 11, 0.4);
+      }
+
+      .card.cisco-common:hover {
+        border-color: rgba(245, 158, 11, 0.7);
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+      }
+
+      .card.cisco-common .card-header h2 {
+        color: #f59e0b;
+      }
+
+      .card.cisco-common .section-title {
+        color: #fbbf24;
+        border-bottom-color: #fbbf24;
+      }
+
+      .card.cisco-common .command code {
+        color: #f59e0b;
+      }
+
+      .card.cisco-common pre code {
+        color: #f59e0b;
+      }
+
+      tr:hover td {
+        background: rgba(26, 255, 156, 0.05);
+      }
+
+      /* CODE BLOCKS */
+      pre {
+        background: var(--bg-primary);
+        padding: 15px;
+        border-radius: 8px;
+        overflow: auto;
+        border-left: 3px solid var(--accent-2);
+        position: relative;
+        margin-bottom: 12px;
+      }
+
+      pre code {
+        color: var(--accent-2);
+        line-height: 1.6;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .card.apache pre code {
+        color: #2563eb;
+      }
+
+      .card.proxy pre code {
+        color: #ea580c;
+      }
+
+      .card.dns pre code {
+        color: #dc2626;
+      }
+
+      .pre-copy {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px 10px;
+        font-size: 11px;
+        background: var(--accent-3);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: bold;
+      }
+
+      .pre-copy:hover {
+        transform: scale(1.1);
+      }
+
+      .card.apache .pre-copy {
+        background: #2563eb;
+      }
+
+      .card.proxy .pre-copy {
+        background: #ea580c;
+      }
+
+      .card.dns .pre-copy {
+        background: #dc2626;
+      }
+
+      /* PATHS */
+      .paths {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .path {
+        background: var(--bg-primary);
+        border-radius: 6px;
+        padding: 12px;
+        border: 2px solid var(--accent-1);
+        transition: all 0.2s ease;
+      }
+
+      .path:hover {
+        box-shadow: 0 0 15px var(--glow);
+        transform: translateX(5px);
+      }
+
+      .path-title {
+        font-size: 10px;
+        color: var(--accent-2);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .path-value {
+        font-size: 12px;
+        color: var(--text-primary);
+        word-break: break-all;
+        font-weight: bold;
+      }
+
+      .card.apache .path-title {
+        color: #3b82f6;
+      }
+
+      .card.apache .path-value {
+        color: #2563eb;
+      }
+
+      .card.proxy .path-title {
+        color: #f97316;
+      }
+
+      .card.proxy .path-value {
+        color: #ea580c;
+      }
+
+      .card.dns .path-title {
+        color: #ef4444;
+      }
+
+      .card.dns .path-value {
+        color: #dc2626;
+      }
+
+      /* HIDDEN - Caché les cartes si pas de résultat */
+      .card.hidden {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+
+        .paths {
+          grid-template-columns: 1fr;
+        }
+
+        .header {
+          flex-direction: column;
+        }
+
+        .toolbar {
+          width: 100%;
+        }
+
+        .search-container {
+          min-width: 100%;
+        }
+
+        .theme-menu {
+          right: auto;
+          left: 0;
+        }
+      }
+
+      /* ANIMATIONS */
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 10px var(--glow);
+        }
+        50% {
+          text-shadow: 0 0 25px var(--glow);
+        }
+      }
+
+      .terminal {
+        animation: glow 2s infinite;
+      }
+    </style>
+  </head>
+
+  <body class="theme-neon">
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar-nav" id="sidebarNav">
+      <a class="nav-item active" href="#domain-linux" onclick="navigateToDomain(event, 'domain-linux')">🐧 Linux<br>& Web</a>
+      <a class="nav-item" href="#domain-infra" onclick="navigateToDomain(event, 'domain-infra')">🌐 Infra<br>Réseau</a>
+      <a class="nav-item" href="#domain-diag" onclick="navigateToDomain(event, 'domain-diag')">🧪 Diag<br>& Tests</a>
+      <a class="nav-item" href="#domain-access" onclick="navigateToDomain(event, 'domain-access')">🔑 Accès<br>Distant</a>
+      <a class="nav-item" href="#domain-cisco" onclick="navigateToDomain(event, 'domain-cisco')">🔌 Cisco</a>
     </div>
 
-    <div class="cards">
+    <!-- SEARCH BAR - FIXED LEFT -->
+    <div class="search-container" id="searchContainer">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="🔍 Rechercher..."
+      />
+      <div id="searchResults" class="search-results" hidden></div>
+    </div>
+    <div id="searchSentinel" aria-hidden="true"></div>
 
-      <!-- CARD 1 -->
-
-      <div class="card teal">
-
-        <div class="card-header">
-          <div>🐧</div>
-          <h2>Linux & Apache</h2>
+    <div class="main-wrapper">
+      <div class="container">
+      <div class="header">
+        <div class="header-left">
+          <div class="terminal">🔒 root@memo:~$</div>
+          <h1><span>➜</span> SysAdmin MémoFiches</h1>
         </div>
 
-        <div class="section">
-          <div class="section-title">Commandes Linux</div>
-
-          <div class="command">
-            <div class="command-label">Navigation</div>
-            <code>cd /etc/apache2</code>
-          </div>
-
-          <div class="command">
-            <div class="command-label">Listing</div>
-            <code>ls -lh</code>
-          </div>
-
-          <div class="command">
-            <div class="command-label">Édition</div>
-            <code>sudo nano fichier.conf</code>
-          </div>
-
-        </div>
-
-        <div class="section">
-          <div class="section-title">Gestion Apache</div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Action</th>
-                <th>Commande</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>Démarrer</td>
-                <td>sudo systemctl start apache2</td>
-              </tr>
-
-              <tr>
-                <td>Redémarrer</td>
-                <td>sudo systemctl restart apache2</td>
-              </tr>
-
-              <tr>
-                <td>Status</td>
-                <td>sudo systemctl status apache2</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Chemins utiles</div>
-
-          <div class="paths">
-
-            <div class="path">
-              <div class="path-title">Configurations</div>
-              <div class="path-value">/etc/apache2/</div>
+        <div class="toolbar">
+          <div style="position: relative">
+            <button class="theme-btn" id="themeBtn">⚙️ Thème</button>
+            <div class="theme-menu" id="themeMenu">
+              <div class="theme-option active" data-theme="neon">🌙 Dark</div>
+              <div class="theme-option" data-theme="matrix">☀️ Light</div>
+              <div class="theme-option" data-theme="abyss">🔵 Blue</div>
+              <div class="theme-option" data-theme="synthwave">💚 Green</div>
             </div>
-
-            <div class="path">
-              <div class="path-title">Logs</div>
-              <div class="path-value">/var/log/apache2/</div>
-            </div>
-
           </div>
         </div>
-
       </div>
 
-      <!-- CARD 2 -->
+      <div class="cards">
+        <!-- DOMAINE 1: LINUX & WEB -->
+        <div class="domain-section" id="domain-linux">
+          <div class="domain-title">🐧 Linux & Web</div>
+          <div class="domain-cards">
+            <!-- CARD 1 -->
+            <div class="card apache">
+          <div class="card-header">
+            <div>🐧</div>
+            <h2>Linux & Apache</h2>
+          </div>
 
-      <div class="card amber">
+          <div class="section">
+            <div class="section-title">Commandes Linux (Système)</div>
 
-        <div class="card-header">
-          <div>🌐</div>
-          <h2>Reverse Proxy</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Fonction</th>
+                  <th>Commande</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Navigation</td>
+                  <td>cd /etc/apache2</td>
+                  <td>Se déplacer dans un dossier</td>
+                </tr>
+
+                <tr>
+                  <td>Listing</td>
+                  <td>ls -lh</td>
+                  <td>Lister les fichiers avec détails</td>
+                </tr>
+
+                <tr>
+                  <td>Édition</td>
+                  <td>sudo nano fichier.conf</td>
+                  <td>Modifier un fichier de configuration</td>
+                </tr>
+
+                <tr>
+                  <td>Propriété</td>
+                  <td>sudo chown -R www-data: /var/www</td>
+                  <td>Donner la propriété du dossier à Apache</td>
+                </tr>
+
+                <tr>
+                  <td>Droits</td>
+                  <td>sudo chmod 755 -R /var/www</td>
+                  <td>Appliquer les droits lecture/exécution</td>
+                </tr>
+
+                <tr>
+                  <td>Surveillance</td>
+                  <td>htop</td>
+                  <td>Voir l'utilisation CPU/RAM en temps réel</td>
+                </tr>
+
+                <tr>
+                  <td>Espace Disque</td>
+                  <td>df -h</td>
+                  <td>Vérifier si le disque est plein</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Gestion du Service Apache</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Commande</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Démarrer</td>
+                  <td>sudo systemctl start apache2</td>
+                  <td>Démarre le service Apache</td>
+                </tr>
+
+                <tr>
+                  <td>Arrêter</td>
+                  <td>sudo systemctl stop apache2</td>
+                  <td>Arrête complètement Apache</td>
+                </tr>
+
+                <tr>
+                  <td>Redémarrer</td>
+                  <td>sudo systemctl restart apache2</td>
+                  <td>Redémarrage complet (coupe connexions)</td>
+                </tr>
+
+                <tr>
+                  <td>Recharger</td>
+                  <td>sudo systemctl reload apache2</td>
+                  <td>Applique config sans coupure</td>
+                </tr>
+
+                <tr>
+                  <td>Status</td>
+                  <td>sudo systemctl status apache2</td>
+                  <td>Voir l'état du service</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Gestion des Sites (VirtualHosts)</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Activer un site</div>
+                  <code>sudo a2ensite nom_du_fichier.conf</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Désactiver un site</div>
+                  <code>sudo a2dissite nom_du_fichier.conf</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Important</div>
+                  <code>sudo systemctl reload apache2</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Gestion des Modules</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Activer un module</div>
+                  <code>sudo a2enmod nom_module (ex: proxy, ssl, rewrite)</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Désactiver un module</div>
+                  <code>sudo a2dismod nom_module</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Lister les modules actifs</div>
+                  <code>apache2ctl -M</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="section">
-          <div class="section-title">Modules Apache</div>
+        <!-- CARD 1.5 - Diagnostic Apache -->
 
-          <table>
-            <thead>
-              <tr>
-                <th>Commande</th>
-                <th>Rôle</th>
-              </tr>
-            </thead>
+        <div class="card apache">
+          <div class="card-header">
+            <div>⚠️</div>
+            <h2>Diagnostic & Logs Apache</h2>
+          </div>
 
-            <tbody>
-              <tr>
-                <td>sudo a2enmod proxy</td>
-                <td>Active le proxy</td>
-              </tr>
+          <div class="section">
+            <div class="section-title">Vérification et Tests</div>
 
-              <tr>
-                <td>sudo a2enmod proxy_http</td>
-                <td>Support HTTP</td>
-              </tr>
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Vérifier la syntaxe</div>
+                  <code>sudo apache2ctl configtest</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
 
-              <tr>
-                <td>sudo a2enmod proxy_balancer</td>
-                <td>Load balancing</td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Logs erreurs en direct</div>
+                  <code>sudo tail -f /var/log/apache2/error.log</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Logs accès en direct</div>
+                  <code>sudo tail -f /var/log/apache2/access.log</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Voir la dernière erreur</div>
+                  <code>sudo tail -n 20 /var/log/apache2/error.log</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Filtrer les erreurs 404</div>
+                  <code>grep 404 /var/log/apache2/access.log | wc -l</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Chemins Clés Apache</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller aux configurations</div>
+                  <code>cd /etc/apache2/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller aux sites disponibles</div>
+                  <code>cd /etc/apache2/sites-available/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller à la racine web</div>
+                  <code>cd /var/www/html/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller aux journaux</div>
+                  <code>cd /var/log/apache2/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
         </div>
 
-        <div class="section">
-          <div class="section-title">Configuration ProxyPass</div>
+        <!-- DOMAINE 2: INFRASTRUCTURE RÉSEAU -->
+        <div class="domain-section" id="domain-infra">
+          <div class="domain-title">🌐 Infrastructure Réseau</div>
+          <div class="domain-cards">
+            <!-- CARD 2 -->
 
-<pre><code>ProxyPreserveHost On
+            <div class="card proxy">
+          <div class="card-header">
+            <div>🌐</div>
+            <h2>Reverse Proxy</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🧩 1. Préparation - Modules Proxy</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Rôle</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>sudo a2enmod proxy</td>
+                  <td>Active le moteur de proxy de base</td>
+                </tr>
+
+                <tr>
+                  <td>sudo a2enmod proxy_http</td>
+                  <td>Support pour rediriger vers HTTP (Node, Docker, etc.)</td>
+                </tr>
+
+                <tr>
+                  <td>sudo a2enmod proxy_balancer</td>
+                  <td>Répartition de charge (Load Balancing)</td>
+                </tr>
+
+                <tr>
+                  <td>sudo a2enmod proxy_connect</td>
+                  <td>Support SSL en tunnel (méthode CONNECT)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">📝 2. Directives de Configuration</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">
+                    À placer dans &lt;VirtualHost&gt;
+                  </div>
+                  <code
+                    >sudo nano /etc/apache2/sites-available/mon-proxy.conf</code
+                  >
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>ProxyPreserveHost On
 ProxyPass / http://127.0.0.1:8080/
 ProxyPassReverse / http://127.0.0.1:8080/</code></pre>
-
-        </div>
-
-        <div class="section">
-          <div class="section-title">Tests réseau</div>
-
-          <div class="command">
-            <div class="command-label">Port</div>
-            <code>nc -zv 127.0.0.1 8080</code>
           </div>
 
-          <div class="command">
-            <div class="command-label">HTTP</div>
-            <code>curl -I http://127.0.0.1:8080</code>
+          <div class="section">
+            <div class="section-title">🛠️ 3. Tests et Connectivité</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Test de port</td>
+                  <td>nc -zv 127.0.0.1 8080</td>
+                  <td>Vérifie si le port écoute</td>
+                </tr>
+
+                <tr>
+                  <td>Appel local</td>
+                  <td>curl -I http://127.0.0.1:8080</td>
+                  <td>Teste la réponse du service (HTTP 200)</td>
+                </tr>
+
+                <tr>
+                  <td>Ports actifs</td>
+                  <td>ss -tulpn</td>
+                  <td>Liste tous les services écoutants</td>
+                </tr>
+
+                <tr>
+                  <td>Logs Apache</td>
+                  <td>tail -f /var/log/apache2/error.log</td>
+                  <td>Debug 502 Bad Gateway</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-        </div>
+          <div class="section">
+            <div class="section-title">💡 4. Workflow "Zéro Erreur"</div>
 
-      </div>
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Étape 1 : Modifier</div>
+                  <code
+                    >sudo nano /etc/apache2/sites-available/mon-site.conf</code
+                  >
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
 
-      <!-- CARD 3 -->
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Étape 2 : Vérifier syntaxe</div>
+                  <code>sudo apache2ctl configtest</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
 
-      <div class="card coral">
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Étape 3 : Appliquer (si OK)</div>
+                  <code>sudo systemctl reload apache2</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
 
-        <div class="card-header">
-          <div>🔍</div>
-          <h2>DNS Autoritaire (BIND9)</h2>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Installation</div>
-
-          <div class="command">
-            <div class="command-label">APT</div>
-            <code>sudo apt install bind9 bind9utils</code>
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Étape 4 : Surveiller</div>
+                  <code>sudo tail -n 20 /var/log/apache2/error.log</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
           </div>
 
+          <div class="section">
+            <div class="section-title">🔒 Pare-feu (UFW)</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Autoriser Apache</div>
+                  <code>sudo ufw allow 'Apache Full'</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="section">
-          <div class="section-title">Zone DNS</div>
+            <!-- CARD 3 -->
 
-<pre><code>zone "mon-domaine.lan" {
+            <div class="card dns">
+          <div class="card-header">
+            <div>🔍</div>
+            <h2>DNS Autoritaire (BIND9)</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🏗️ 1. Installation et Arborescence</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Installation</div>
+                  <code>sudo apt install bind9 bind9utils</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Chemin</th>
+                  <th>Rôle</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>/etc/bind/named.conf.local</td>
+                  <td>Fichier où l'on déclare nos zones (domaines)</td>
+                </tr>
+
+                <tr>
+                  <td>/etc/bind/named.conf.options</td>
+                  <td>Configuration globale (forwarders, sécurité)</td>
+                </tr>
+
+                <tr>
+                  <td>/var/cache/bind/</td>
+                  <td>Répertoire stockage zones répliquées (Esclave)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">👑 2. Serveur Primaire (Maître)</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Déclaration - named.conf.local</div>
+                  <code>sudo nano /etc/bind/named.conf.local</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>zone "mon-domaine.lan" {
     type master;
     file "/etc/bind/db.mon-domaine.lan";
+    allow-transfer { IP_DU_SECONDAIRE; };
+    also-notify { IP_DU_SECONDAIRE; };
 };</code></pre>
 
-        </div>
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Fichier de zone - db.mon-domaine.lan</div>
+                  <code>sudo nano /etc/bind/db.mon-domaine.lan</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
 
-        <div class="section">
-          <div class="section-title">Diagnostic DIG</div>
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>$TTL 604800
+@   IN  SOA  ns1.mon-domaine.lan. admin.mon-domaine.lan. (
+                  2023102701 ; Serial (À incrémenter)
+                  604800     ; Refresh
+                  86400      ; Retry
+                  2419200    ; Expire
+                  604800 )   ; Negative Cache TTL
 
-          <div class="command">
-            <div class="command-label">Test local</div>
-            <code>dig @localhost www.mon-domaine.lan</code>
+@   IN  NS   ns1.mon-domaine.lan.
+@   IN  NS   ns2.mon-domaine.lan.
+ns1 IN  A    IP_SERVEUR_MAITRE
+ns2 IN  A    IP_SERVEUR_ESCLAVE
+www IN  A    IP_DU_SERVEUR_WEB</code></pre>
           </div>
 
-          <div class="command">
-            <div class="command-label">SOA</div>
-            <code>dig mon-domaine.lan SOA</code>
+          <div class="section">
+            <div class="section-title">👥 3. Serveur Secondaire (Esclave)</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Déclaration esclave - named.conf.local</div>
+                  <code>sudo nano /etc/bind/named.conf.local</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>zone "mon-domaine.lan" {
+    type slave;
+    file "/var/cache/bind/db.mon-domaine.lan";
+    masters { IP_DU_MAITRE; };
+};</code></pre>
           </div>
 
+          <div class="section">
+            <div class="section-title">🛠️ 4. Commandes de Vérification</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Syntaxe globale</td>
+                  <td>sudo named-checkconf</td>
+                  <td>Vérifie tous les fichiers Config</td>
+                </tr>
+
+                <tr>
+                  <td>Fichier de zone</td>
+                  <td>sudo named-checkzone mon-domaine.lan /etc/bind/db.mon-domaine.lan</td>
+                  <td>Valide le fichier de zone</td>
+                </tr>
+
+                <tr>
+                  <td>Recharger zones</td>
+                  <td>sudo rndc reload</td>
+                  <td>Applique changements BIND</td>
+                </tr>
+
+                <tr>
+                  <td>Logs transfert</td>
+                  <td>tail -f /var/log/syslog</td>
+                  <td>Debug transfert zone (Master)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🔍 5. Tests et Diagnostic</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Tester le serveur local</div>
+                  <code>dig @localhost www.mon-domaine.lan</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Test transfert (AXFR)</div>
+                  <code>dig axfr mon-domaine.lan @IP_DU_MAITRE</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Vérifier SOA</div>
+                  <code>dig mon-domaine.lan SOA</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">📂 Chemins Importants</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller aux configurations BIND</div>
+                  <code>cd /etc/bind/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller aux zones répliquées</div>
+                  <code>cd /var/cache/bind/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Aller aux logs</div>
+                  <code>cd /var/log/</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
         </div>
 
+        <!-- DOMAINE 3: DIAGNOSTIC & TESTS -->
+        <div class="domain-section" id="domain-diag">
+          <div class="domain-title">🧪 Diagnostic & Tests</div>
+          <div class="domain-cards">
+            <!-- CARD 4 -->
+
+            <div class="card test">
+          <div class="card-header">
+            <div>🧪</div>
+            <h2>Commandes de Test</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🐧 1. Commandes Réseau & DNS (Linux / Universel)</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>ping [IP/Domaine]</strong></td>
+                  <td>Vérifie la connectivité ICMP de base</td>
+                </tr>
+
+                <tr>
+                  <td><strong>dig [domaine]</strong></td>
+                  <td>Interroge le serveur DNS par défaut pour un domaine</td>
+                </tr>
+
+                <tr>
+                  <td><strong>dig @[IP_serveur] [domaine]</strong></td>
+                  <td>Teste un serveur DNS spécifique (ex: @8.8.8.8)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>nslookup [domaine]</strong></td>
+                  <td>Alternative simple à dig pour tester la résolution de nom</td>
+                </tr>
+
+                <tr>
+                  <td><strong>host -t A [domaine]</strong></td>
+                  <td>Trouve l'adresse IPv4 associée à un nom</td>
+                </tr>
+
+                <tr>
+                  <td><strong>traceroute [domaine]</strong></td>
+                  <td>Affiche chaque saut (routeur) entre vous et la destination</td>
+                </tr>
+
+                <tr>
+                  <td><strong>nc -zv [IP] [Port]</strong></td>
+                  <td>Netcat : vérifie si un port est ouvert (ex: nc -zv 1.1.1.1 443)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>curl -I [URL]</strong></td>
+                  <td>Récupère uniquement l'en-tête HTTP (codes 200, 404, 502)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🌐 2. Apache & Nginx (Serveurs Web / Reverse Proxy)</div>
+
+            <div style="padding: 10px 0; font-weight: bold; color: var(--text-primary);">⚠️ Avant de redémarrer, toujours tester la syntaxe !</div>
+
+            <div style="margin-top: 15px; font-weight: bold; color: #2563eb; padding: 8px 0;">Apache</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>apache2ctl configtest</strong></td>
+                  <td>Vérifie la syntaxe de tous les fichiers .conf</td>
+                </tr>
+
+                <tr>
+                  <td><strong>apache2ctl -S</strong></td>
+                  <td>Affiche la hiérarchie des VirtualHosts actifs</td>
+                </tr>
+
+                <tr>
+                  <td><strong>apache2ctl -M</strong></td>
+                  <td>Liste tous les modules chargés (proxy, ssl, rewrite)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>tail -f /var/log/apache2/error.log</strong></td>
+                  <td>Analyse les erreurs en temps réel</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top: 15px; font-weight: bold; color: #ea580c; padding: 8px 0;">Nginx</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>nginx -t</strong></td>
+                  <td>Teste la syntaxe des fichiers de configuration</td>
+                </tr>
+
+                <tr>
+                  <td><strong>nginx -T</strong></td>
+                  <td>Affiche la configuration complète consolidée</td>
+                </tr>
+
+                <tr>
+                  <td><strong>nginx -V</strong></td>
+                  <td>Affiche la version et les arguments de compilation</td>
+                </tr>
+
+                <tr>
+                  <td><strong>tail -f /var/log/nginx/error.log</strong></td>
+                  <td>Indispensable pour diagnostiquer les « 502 Bad Gateway »</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🛠️ 3. BIND9 (DNS Autoritaire & Secondaire)</div>
+
+            <div style="padding: 10px 0; font-weight: bold; color: var(--text-primary);">⚠️ Le DNS est sensible : une virgule manquante et le service ne démarre plus</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>named-checkconf</strong></td>
+                  <td>Vérifie les fichiers de configuration globaux</td>
+                </tr>
+
+                <tr>
+                  <td><strong>named-checkzone [domaine] [chemin]</strong></td>
+                  <td>Valide le fichier de zone (Serial, enregistrements A, MX)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>rndc status</strong></td>
+                  <td>Affiche l'état de santé du démon BIND</td>
+                </tr>
+
+                <tr>
+                  <td><strong>rndc reload</strong></td>
+                  <td>Recharge les zones sans redémarrer</td>
+                </tr>
+
+                <tr>
+                  <td><strong>dig axfr @[Master_IP] [domaine]</strong></td>
+                  <td>Teste le transfert de zone (Primaire → Secondaire)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🪟 4. Windows (PowerShell & CMD)</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>ipconfig /all</strong></td>
+                  <td>Affiche toute la configuration réseau (IP, DNS, Passerelle)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>ipconfig /flushdns</strong></td>
+                  <td>Vide le cache DNS local (après changement de zone)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>nslookup -type=soa [domaine]</strong></td>
+                  <td>Vérifie l'autorité DNS pour un domaine</td>
+                </tr>
+
+                <tr>
+                  <td><strong>Test-NetConnection -ComputerName [IP] -Port [Port]</strong></td>
+                  <td>PowerShell : équivalent moderne de Telnet/Netcat</td>
+                </tr>
+
+                <tr>
+                  <td><strong>tracert [IP]</strong></td>
+                  <td>L'équivalent Windows de traceroute</td>
+                </tr>
+
+                <tr>
+                  <td><strong>Get-Service [Nom]</strong></td>
+                  <td>PowerShell : vérifie l'état d'un service (ex: Get-Service DNS)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">📊 5. Commandes Système Linux (Performance & Ports)</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>ss -tulpn</strong></td>
+                  <td>Liste tous les ports ouverts et les programmes qui les utilisent</td>
+                </tr>
+
+                <tr>
+                  <td><strong>journalctl -u [service] -f</strong></td>
+                  <td>Affiche les logs système d'un service (ex: -u bind9)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>top ou htop</strong></td>
+                  <td>Surveille la consommation de ressources</td>
+                </tr>
+
+                <tr>
+                  <td><strong>df -h</strong></td>
+                  <td>Vérifie qu'une partition n'est pas pleine</td>
+                </tr>
+
+                <tr>
+                  <td><strong>lsof -i :80</strong></td>
+                  <td>Trouve quel processus occupe le port 80</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+          </div>
+        </div>
+
+        <!-- DOMAINE 4: ACCÈS DISTANT -->
+        <div class="domain-section" id="domain-access">
+          <div class="domain-title">🔑 Accès Distant</div>
+          <div class="domain-cards">
+            <!-- CARD 5 - SSH -->
+
+            <div class="card ssh">
+          <div class="card-header">
+            <div>🔑</div>
+            <h2>SSH - Connexion à Distance</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🐧 Linux / macOS (Terminal)</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>ssh utilisateur@adresse_ip</strong></td>
+                  <td>Connexion simple au serveur</td>
+                </tr>
+
+                <tr>
+                  <td><strong>ssh -p 2222 utilisateur@adresse_ip</strong></td>
+                  <td>Connexion avec port spécifique</td>
+                </tr>
+
+                <tr>
+                  <td><strong>ssh utilisateur@adresse_ip "ls -l /var/www"</strong></td>
+                  <td>Exécuter une commande sans rester connecté</td>
+                </tr>
+
+                <tr>
+                  <td><strong>scp fichier.txt utilisateur@adresse_ip:/home/utilisateur/</strong></td>
+                  <td>Copier un fichier vers le serveur (SCP)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🪟 Windows (PowerShell / CMD / PuTTY)</div>
+
+            <div style="padding: 10px 0; font-weight: bold; color: var(--text-primary);">PowerShell / CMD</div>
+            
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Connexion (même que Linux)</div>
+                  <code>ssh utilisateur@adresse_ip</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div style="margin-top: 15px; padding: 10px 0; font-weight: bold; color: var(--text-primary);">PuTTY (Utilitaire graphique)</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Paramètre</th>
+                  <th>Valeur</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Host Name</td>
+                  <td>Adresse IP du serveur</td>
+                </tr>
+
+                <tr>
+                  <td>Port</td>
+                  <td>22 (ou port personnalisé)</td>
+                </tr>
+
+                <tr>
+                  <td>Connection type</td>
+                  <td>SSH</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+          </div>
+        </div>
+
+        <!-- DOMAINE 5: ÉQUIPEMENTS CISCO -->
+        <div class="domain-section" id="domain-cisco">
+          <div class="domain-title">🔌 Équipements Cisco</div>
+          <div class="domain-cards">
+            <!-- CARD 6 - CISCO SWITCH -->
+
+            <div class="card cisco-switch">
+          <div class="card-header">
+            <div>🔌</div>
+            <h2>Switch Cisco (Catalyst)</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">⚙️ Configuration de Base</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>enable</strong></td>
+                  <td>Passer en mode privilégié (symbole #)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>configure terminal</strong></td>
+                  <td>Entrer en mode configuration globale</td>
+                </tr>
+
+                <tr>
+                  <td><strong>hostname NomDuSwitch</strong></td>
+                  <td>Donner un nom à l'équipement</td>
+                </tr>
+
+                <tr>
+                  <td><strong>enable secret mot_de_passe</strong></td>
+                  <td>Sécuriser l'accès au mode privilégié</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">📦 Gestion des VLANs</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Créer un VLAN</div>
+                  <code>vlan 10</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Nommer le VLAN</div>
+                  <code>name Direction</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>! Assigner un port à un VLAN
+interface fastEthernet 0/1
+switchport mode access
+switchport access vlan 10</code></pre>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>! Créer un Trunk (Lien entre switchs)
+interface gigabitEthernet 0/1
+switchport mode trunk</code></pre>
+          </div>
+
+          <div class="section">
+            <div class="section-title">👁️ Visualisation et Test</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>show vlan brief</strong></td>
+                  <td>Voir la liste des VLANs et leurs ports</td>
+                </tr>
+
+                <tr>
+                  <td><strong>show mac address-table</strong></td>
+                  <td>Voir les adresses MAC apprises</td>
+                </tr>
+
+                <tr>
+                  <td><strong>show interfaces status</strong></td>
+                  <td>État physique des ports (Connecté/Notconnect)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+            <!-- CARD 7 - CISCO ROUTER -->
+
+            <div class="card cisco-router">
+          <div class="card-header">
+            <div>🚀</div>
+            <h2>Routeur Cisco</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🌐 Configuration des Interfaces</div>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>interface gigabitEthernet 0/0
+ip address 192.168.1.254 255.255.255.0
+no shutdown
+description Lien vers LAN</code></pre>
+
+            <div style="padding: 10px; background: rgba(236, 72, 153, 0.1); border-left: 3px solid #ec4899; margin: 15px 0; border-radius: 4px;">
+              <strong>⚠️ CRUCIAL :</strong> <code style="color: #ec4899;">no shutdown</code> active l'interface (par défaut = éteinte)
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🛣️ Routage</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Commande</th>
+                  <th>Exemple</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>Route statique</strong></td>
+                  <td>ip route [Réseau] [Masque] [Passerelle]</td>
+                  <td>ip route 10.0.0.0 255.255.255.0 192.168.1.1</td>
+                </tr>
+
+                <tr>
+                  <td><strong>Route par défaut</strong></td>
+                  <td>ip route 0.0.0.0 0.0.0.0 [IP_Box]</td>
+                  <td>ip route 0.0.0.0 0.0.0.0 192.168.1.1</td>
+                </tr>
+
+                <tr>
+                  <td><strong>Activation routage</strong></td>
+                  <td>ip routing</td>
+                  <td>ip routing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">👁️ Visualisation et Test</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>show ip route</strong></td>
+                  <td>Afficher la table de routage (la "carte")</td>
+                </tr>
+
+                <tr>
+                  <td><strong>show ip interface brief</strong></td>
+                  <td>Résumé des IPs et état des interfaces</td>
+                </tr>
+
+                <tr>
+                  <td><strong>ping [IP]</strong></td>
+                  <td>Tester la connectivité</td>
+                </tr>
+
+                <tr>
+                  <td><strong>traceroute [IP]</strong></td>
+                  <td>Voir par quel chemin passent les paquets</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+            <!-- CARD 8 - CISCO COMMON -->
+
+            <div class="card cisco-common">
+          <div class="card-header">
+            <div>💾</div>
+            <h2>Commandes Cisco (Sauvegarde & Sécurité)</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">💿 Sauvegarde de la Configuration</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Utilité</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><strong>write memory</strong></td>
+                  <td>Sauvegarder la configuration</td>
+                </tr>
+
+                <tr>
+                  <td><strong>copy running-config startup-config</strong></td>
+                  <td>Sauvegarde alternative (ne pas perdre les réglages)</td>
+                </tr>
+
+                <tr>
+                  <td><strong>erase startup-config</strong></td>
+                  <td>Effacer la configuration</td>
+                </tr>
+
+                <tr>
+                  <td><strong>reload</strong></td>
+                  <td>Redémarrer l'équipement après erase</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🔒 Configuration SSH</div>
+
+            <pre><button class="pre-copy" onclick="copyPreToClipboard(this)">📋 Copier</button><code>ip domain-name mon-entreprise.fr
+crypto key generate rsa
+! Choisir 1024 ou 2048
+line vty 0 4
+transport input ssh
+login local</code></pre>
+          </div>
+
+          <div class="section">
+            <div class="section-title">🔍 Affichage</div>
+
+            <div class="command-wrapper">
+              <div class="command">
+                <div class="command-content">
+                  <div class="command-label">Configuration actuelle</div>
+                  <code>show running-config</code>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard(this)">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">💡 Astuce Pro</div>
+
+            <div style="padding: 12px; background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; border-radius: 4px;">
+              <strong>Tabulation :</strong> Auto-complète les commandes<br>
+              <strong>? :</strong> Affiche les options disponibles à n'importe quel moment
+            </div>
+          </div>
+        </div>
+            </div>
+          </div>
+        </div>
       </div>
-
+      </div>
+    </div>
     </div>
 
-  </div>
+    <script>
+      // ==================== SIDEBAR NAVIGATION ====================
+      function navigateToDomain(event, domainId) {
+        event.preventDefault();
+        const element = document.getElementById(domainId);
+        if (element) {
+          const offsetTop = element.offsetTop - 200;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+          updateActiveNavItem(domainId);
+        }
+      }
 
-</body>
+      function updateActiveNavItem(domainId) {
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        const activeItem = document.querySelector(`.nav-item[href="#${domainId}"]`);
+        if (activeItem) {
+          activeItem.classList.add('active');
+        }
+      }
+
+      // Update sidebar on scroll
+      window.addEventListener('scroll', () => {
+        const domains = ['domain-linux', 'domain-infra', 'domain-diag', 'domain-access', 'domain-cisco'];
+        let currentDomain = domains[0];
+
+        domains.forEach(domainId => {
+          const element = document.getElementById(domainId);
+          if (element && element.offsetTop - 300 <= window.scrollY) {
+            currentDomain = domainId;
+          }
+        });
+
+        updateActiveNavItem(currentDomain);
+      });
+
+      // ==================== TABLE CELL COPY ====================
+      function makeTablesCopyable() {
+        document.querySelectorAll('table td').forEach(cell => {
+          cell.style.cursor = 'pointer';
+          cell.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const text = this.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+              const originalBg = this.style.backgroundColor;
+              this.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
+              setTimeout(() => {
+                this.style.backgroundColor = originalBg;
+              }, 500);
+            });
+          });
+          cell.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+            this.title = 'Cliquer pour copier';
+          });
+          cell.addEventListener('mouseout', function() {
+            this.style.backgroundColor = '';
+          });
+        });
+      }
+
+      // ==================== SEARCH FLOATING ON SCROLL ====================
+      const searchContainer = document.getElementById("searchContainer");
+      const searchSentinel = document.getElementById("searchSentinel");
+
+      function toggleSearchFloating() {
+        const shouldFloat = searchSentinel.getBoundingClientRect().top <= 0;
+        document.body.classList.toggle("search-floating", shouldFloat);
+      }
+
+      window.addEventListener("scroll", toggleSearchFloating);
+      window.addEventListener("resize", toggleSearchFloating);
+      toggleSearchFloating();
+
+      // ==================== THEME MANAGER ====================
+      const themeBtn = document.getElementById("themeBtn");
+      const themeMenu = document.getElementById("themeMenu");
+      const body = document.body;
+
+      // Charger le thème sauvegardé
+      const savedTheme = localStorage.getItem("sysadmin-theme") || "neon";
+      body.className = `theme-${savedTheme}`;
+
+      // Bouton pour ouvrir/fermer le menu
+      themeBtn.addEventListener("click", () => {
+        themeMenu.classList.toggle("active");
+      });
+
+      // Fermer le menu quand on clique ailleurs
+      document.addEventListener("click", (e) => {
+        if (
+          !e.target.closest(".theme-btn") &&
+          !e.target.closest(".theme-menu")
+        ) {
+          themeMenu.classList.remove("active");
+        }
+      });
+
+      // Sélectionner un thème
+      document.querySelectorAll(".theme-option").forEach((option) => {
+        if (option.dataset.theme === savedTheme) {
+          option.classList.add("active");
+        }
+
+        option.addEventListener("click", () => {
+          const theme = option.dataset.theme;
+          body.className = `theme-${theme}`;
+          localStorage.setItem("sysadmin-theme", theme);
+
+          // Mettre à jour l'UI
+          document.querySelectorAll(".theme-option").forEach((opt) => {
+            opt.classList.remove("active");
+          });
+          option.classList.add("active");
+          themeMenu.classList.remove("active");
+        });
+      });
+
+      // ==================== COPY TO CLIPBOARD ====================
+      function copyToClipboard(btn) {
+        const code =
+          btn.previousElementSibling.querySelector("code").textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          btn.textContent = "✓";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "📋";
+            btn.classList.remove("copied");
+          }, 2000);
+        });
+      }
+
+      function copyPreToClipboard(btn) {
+        const code = btn.nextElementSibling.textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          btn.textContent = "✓ Copié";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "📋 Copier";
+            btn.classList.remove("copied");
+          }, 2000);
+        });
+      }
+
+      // ==================== FUZZY SEARCH WITH LEVENSHTEIN ====================
+      // Distance de Levenshtein pour recherche approximative
+      function levenshteinDistance(str1, str2) {
+        const len1 = str1.length;
+        const len2 = str2.length;
+        const matrix = Array(len2 + 1)
+          .fill(null)
+          .map(() => Array(len1 + 1).fill(0));
+
+        for (let i = 0; i <= len1; i++) matrix[0][i] = i;
+        for (let j = 0; j <= len2; j++) matrix[j][0] = j;
+
+        for (let j = 1; j <= len2; j++) {
+          for (let i = 1; i <= len1; i++) {
+            const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(
+              matrix[j][i - 1] + 1,
+              matrix[j - 1][i] + 1,
+              matrix[j - 1][i - 1] + cost,
+            );
+          }
+        }
+        return matrix[len2][len1];
+      }
+
+      // Chercher avec tolérance de 2-3 caractères de différence (marge)
+      function fuzzySearch(text, searchTerm, maxDistance = 2) {
+        if (searchTerm === "") return true;
+
+        // Division en mots pour recherche plus flexible
+        const words = text.split(/\s+/);
+        const searchWords = searchTerm.split(/\s+/);
+
+        // Pour chaque mot de recherche
+        for (const searchWord of searchWords) {
+          let found = false;
+
+          for (const word of words) {
+            // 1. Match exact ou contient
+            if (word.includes(searchWord) || searchWord.includes(word)) {
+              found = true;
+              break;
+            }
+
+            // 2. Match avec Distance de Levenshtein (tolérance)
+            const distance = levenshteinDistance(word, searchWord);
+            if (distance <= maxDistance) {
+              found = true;
+              break;
+            }
+          }
+
+          if (!found) return false;
+        }
+
+        return true;
+      }
+
+      // ==================== SEARCH FUNCTIONALITY ====================
+      const searchInput = document.getElementById("searchInput");
+      const cards = document.querySelectorAll(".card");
+
+      // Permet de taper directement pour lancer la recherche, sans focus préalable.
+      document.addEventListener("keydown", (e) => {
+        const activeTag = document.activeElement?.tagName;
+        const isEditable =
+          document.activeElement?.isContentEditable ||
+          activeTag === "INPUT" ||
+          activeTag === "TEXTAREA" ||
+          activeTag === "SELECT";
+
+        if (isEditable || e.ctrlKey || e.metaKey || e.altKey) return;
+
+        if (e.key.length === 1) {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.value += e.key;
+          searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+        } else if (e.key === "Backspace" && searchInput.value.length > 0) {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.value = searchInput.value.slice(0, -1);
+          searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      });
+
+      const searchResults = document.getElementById('searchResults');
+
+      function renderSearchResults(term) {
+        if (!searchResults) return;
+        searchResults.innerHTML = '';
+        const q = term.trim().toLowerCase();
+        if (q === '') {
+          // reset cards and highlights when search cleared
+          cards.forEach(c => {
+            c.classList.remove('hidden', 'top-match');
+            removeHighlights(c);
+          });
+          searchResults.hidden = true;
+          return;
+        }
+
+        // Build matches with relevance score (occurrence count + title bonus)
+        const matches = [];
+        const qWords = q.split(/\s+/).filter(Boolean);
+
+        // helper to escape regex
+        function escapeRegExp(s) {
+          return s.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+        }
+
+        // Remove previous highlights inside a card
+        function removeHighlights(card) {
+          const marks = card.querySelectorAll('mark.search-match');
+          marks.forEach(mark => {
+            const text = document.createTextNode(mark.textContent);
+            mark.replaceWith(text);
+          });
+        }
+
+        // Highlight occurrences of query words inside text nodes of the card,
+        // skipping code/pre elements and buttons.
+        function highlightMatchesInCard(card, qWords) {
+          if (!qWords || qWords.length === 0) return;
+
+          const re = new RegExp('(' + qWords.map(escapeRegExp).join('|') + ')', 'ig');
+
+          const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, {
+            acceptNode(node) {
+              // ignore empty nodes
+              if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+              // ignore nodes inside code/pre/button
+              const p = node.parentElement;
+              if (!p) return NodeFilter.FILTER_REJECT;
+              if (p.closest('code, pre, button')) return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            }
+          });
+
+          const nodes = [];
+          while (walker.nextNode()) nodes.push(walker.currentNode);
+
+          nodes.forEach(textNode => {
+            const parent = textNode.parentNode;
+            const str = textNode.nodeValue;
+            if (re.test(str)) {
+              // create a fragment with marks
+              const html = str.replace(re, '<mark class="search-match">$1</mark>');
+              const frag = document.createRange().createContextualFragment(html);
+              parent.replaceChild(frag, textNode);
+            }
+          });
+        }
+
+        cards.forEach(card => {
+          const titleEl = card.querySelector('h2');
+          const title = titleEl ? titleEl.textContent.trim() : '';
+          const text = card.textContent.replace(/\s+/g, ' ').toLowerCase();
+
+          // count occurrences for all query words
+          let count = 0;
+          qWords.forEach(w => {
+            if (!w) return;
+            const re = new RegExp(escapeRegExp(w), 'ig');
+            const found = (text.match(re) || []).length;
+            count += found;
+          });
+
+          // fuzzy inclusion fallback
+          const included = fuzzySearch(text, q, 2) || fuzzySearch(title.toLowerCase(), q, 2);
+
+          if (included) {
+            // score: occurrences have highest weight, title matches add bonus
+            let score = count;
+            const titleLower = title.toLowerCase();
+            qWords.forEach(w => {
+              if (titleLower.includes(w)) score += 2; // title bonus
+            });
+            // if fuzzy matched but no exact occurrences, give small base score
+            if (score === 0) score = 0.5;
+
+            matches.push({ card, title, score, count });
+          }
+        });
+
+        // sort by score desc, then by raw count desc
+        matches.sort((a, b) => (b.score - a.score) || (b.count - a.count));
+
+        // hide all cards initially
+        cards.forEach(c => c.classList.add('hidden'));
+
+        if (matches.length === 0) {
+          const no = document.createElement('div');
+          no.className = 'search-result-item';
+          no.textContent = 'Aucun résultat';
+          searchResults.appendChild(no);
+        } else {
+          // build result items ordered by relevance
+          matches.forEach(m => {
+            const it = document.createElement('div');
+            it.className = 'search-result-item';
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'result-title';
+            titleDiv.textContent = m.title || 'Résultat';
+
+            const snippetDiv = document.createElement('div');
+            snippetDiv.className = 'result-snippet';
+            const fullText = m.card.textContent.replace(/\s+/g, ' ').trim();
+
+            // build snippet around first occurrence of any query word
+            let snippet = '';
+            let foundIndex = -1;
+            for (const w of qWords) {
+              if (!w) continue;
+              const idx = fullText.toLowerCase().indexOf(w);
+              if (idx !== -1) { foundIndex = idx; break; }
+            }
+            if (foundIndex !== -1) {
+              const start = Math.max(0, foundIndex - 40);
+              const end = Math.min(fullText.length, foundIndex + 80);
+              snippet = fullText.substring(start, end).trim();
+              snippet = snippet.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+              // highlight all query words
+              qWords.forEach(w => {
+                if (!w) return;
+                const re = new RegExp(escapeRegExp(w), 'ig');
+                snippet = snippet.replace(re, match => `<mark>${match}</mark>`);
+              });
+            } else {
+              snippet = fullText.substring(0, 120) + (fullText.length > 120 ? '…' : '');
+              snippet = snippet.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            }
+
+            snippetDiv.innerHTML = snippet;
+
+            it.appendChild(titleDiv);
+            it.appendChild(snippetDiv);
+
+            it.addEventListener('click', () => {
+              const searchOffset = (document.body.classList.contains('search-floating') ? (searchContainer.offsetHeight + 28) : (searchContainer.getBoundingClientRect().top + searchContainer.offsetHeight + 12));
+              const rect = m.card.getBoundingClientRect();
+              const targetY = window.scrollY + rect.top - searchOffset;
+              window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+              m.card.classList.remove('hidden');
+              // highlight top result visually
+              document.querySelectorAll('.card.top-match').forEach(c => c.classList.remove('top-match'));
+              m.card.classList.add('top-match');
+              searchResults.hidden = false;
+              searchInput.focus();
+            });
+
+            searchResults.appendChild(it);
+          });
+
+          // Unhide matched cards in the order of relevance; highlight top
+          matches.forEach((m, i) => {
+            // remove old highlights then highlight current matches
+            removeHighlights(m.card);
+            highlightMatchesInCard(m.card, qWords);
+            m.card.classList.remove('hidden');
+            if (i === 0) {
+              document.querySelectorAll('.card.top-match').forEach(c => c.classList.remove('top-match'));
+              m.card.classList.add('top-match');
+              // scroll top-match so it appears under search bar
+              const searchOffset = (document.body.classList.contains('search-floating') ? (searchContainer.offsetHeight + 28) : (searchContainer.getBoundingClientRect().top + searchContainer.offsetHeight + 12));
+              const rect = m.card.getBoundingClientRect();
+              const targetY = window.scrollY + rect.top - searchOffset;
+              window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+            }
+          });
+        }
+
+        searchResults.hidden = false;
+          // reset keyboard index each render
+          currentResultIndex = -1;
+      }
+
+      searchInput.addEventListener("input", (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+
+        cards.forEach((card) => {
+          const text = card.textContent.toLowerCase();
+
+          if (searchTerm === "") {
+            card.classList.remove("hidden");
+            card.style.borderColor = "";
+            card.style.boxShadow = "";
+          } else {
+            if (fuzzySearch(text, searchTerm, 2)) {
+              card.classList.remove("hidden");
+              // Highlight des résultats
+              card.style.borderColor = "var(--accent-1)";
+              card.style.boxShadow = "0 0 30px var(--glow)";
+            } else {
+              card.classList.add("hidden");
+            }
+          }
+        });
+
+        renderSearchResults(e.target.value);
+      });
+
+      // Keyboard navigation for search results
+      let currentResultIndex = -1;
+
+      function updateResultHighlight(index) {
+        const items = searchResults ? Array.from(searchResults.querySelectorAll('.search-result-item')) : [];
+        items.forEach((it, i) => it.classList.toggle('active', i === index));
+        if (index >= 0 && items[index]) {
+          // ensure highlighted item is visible inside the results container
+          items[index].scrollIntoView({ block: 'nearest' });
+        }
+      }
+
+      searchInput.addEventListener('keydown', (ev) => {
+        if (!searchResults || searchResults.hidden) return;
+        const items = Array.from(searchResults.querySelectorAll('.search-result-item'));
+        if (!items.length) return;
+
+        if (ev.key === 'ArrowDown') {
+          ev.preventDefault();
+          currentResultIndex = Math.min(items.length - 1, currentResultIndex + 1);
+          updateResultHighlight(currentResultIndex);
+        } else if (ev.key === 'ArrowUp') {
+          ev.preventDefault();
+          currentResultIndex = Math.max(0, currentResultIndex - 1);
+          updateResultHighlight(currentResultIndex);
+        } else if (ev.key === 'Enter') {
+          ev.preventDefault();
+          if (currentResultIndex >= 0 && items[currentResultIndex]) {
+            items[currentResultIndex].click();
+          } else if (items[0]) {
+            items[0].click();
+          }
+        } else if (ev.key === 'Escape') {
+          searchResults.hidden = false;
+        }
+      });
+
+      // Close search results when clicking outside
+      document.addEventListener('click', (ev) => {
+        if (!ev.target.closest('.search-container') && !ev.target.closest('.search-results')) {
+          if (searchResults) searchResults.hidden = false;
+        }
+      });
+
+      // Initialiser les tables copiables au chargement
+      makeTablesCopyable();
+    </script>
+  </body>
 </html>
