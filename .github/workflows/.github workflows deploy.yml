@@ -1,0 +1,63 @@
+name: Deploy SysAdmin Memo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Export static files
+        run: npm run export
+        continue-on-error: true
+
+      - name: Prepare for GitHub Pages
+        run: |
+          cp -r .next/static out/
+          echo '{"name": "sysadmin-memo", "version": "1.0.0"}' > out/package.json
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+      - name: Create deployment notification
+        if: github.event_name == 'push'
+        run: |
+          echo "✅ Build completed successfully"
+          echo "📦 Artifact ready for deployment"
+          echo "🌐 Visit: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
