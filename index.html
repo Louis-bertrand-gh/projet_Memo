@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SysAdmin MémoFiches</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family: "JetBrains Mono", monospace;
+      background:#080808;
+      color:#ccc;
+      min-height:100vh;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:auto;
+      padding:30px 20px;
+    }
+
+    /* HEADER */
+
+    .header{
+      border-bottom:1px solid #1a1a1a;
+      padding-bottom:20px;
+      margin-bottom:30px;
+    }
+
+    .terminal{
+      font-size:11px;
+      color:#555;
+      letter-spacing:2px;
+      margin-bottom:5px;
+    }
+
+    h1{
+      font-size:24px;
+      color:#fff;
+    }
+
+    h1 span{
+      color:#1aff9c;
+    }
+
+    /* GRID */
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
+      gap:20px;
+    }
+
+    /* CARD */
+
+    .card{
+      border-radius:12px;
+      padding:22px;
+      border:1px solid;
+    }
+
+    .card.teal{
+      background:#0d2b22;
+      border-color:#0f4a38;
+    }
+
+    .card.amber{
+      background:#2a1f00;
+      border-color:#4a3700;
+    }
+
+    .card.coral{
+      background:#2b1208;
+      border-color:#4a2010;
+    }
+
+    .card-header{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:20px;
+    }
+
+    .card-header h2{
+      font-size:16px;
+      letter-spacing:1px;
+    }
+
+    .teal h2{
+      color:#1aff9c;
+    }
+
+    .amber h2{
+      color:#ffbf00;
+    }
+
+    .coral h2{
+      color:#ff6b47;
+    }
+
+    /* SECTION */
+
+    .section{
+      margin-bottom:20px;
+    }
+
+    .section-title{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:10px;
+      padding-bottom:6px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+
+    /* COMMANDS */
+
+    .command{
+      background:#0a0a0a;
+      border-radius:6px;
+      padding:10px 12px;
+      margin-bottom:10px;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    .command-label{
+      font-size:11px;
+      color:#777;
+      margin-bottom:5px;
+      text-transform:uppercase;
+    }
+
+    .command code{
+      color:#1aff9c;
+      font-size:13px;
+      word-break:break-all;
+    }
+
+    .amber .command code{
+      color:#ffbf00;
+    }
+
+    .coral .command code{
+      color:#ff6b47;
+    }
+
+    /* TABLE */
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:8px;
+    }
+
+    th{
+      background:rgba(255,255,255,0.08);
+      text-align:left;
+      padding:10px;
+      font-size:11px;
+      text-transform:uppercase;
+      color:#aaa;
+    }
+
+    td{
+      padding:10px;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+      font-size:12px;
+    }
+
+    tr:nth-child(even){
+      background:rgba(0,0,0,0.2);
+    }
+
+    /* CODE */
+
+    pre{
+      background:#0a0a0a;
+      padding:15px;
+      border-radius:8px;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    pre code{
+      color:#1aff9c;
+      line-height:1.6;
+      font-size:12px;
+    }
+
+    .amber pre code{
+      color:#ffbf00;
+    }
+
+    .coral pre code{
+      color:#ff6b47;
+    }
+
+    /* PATHS */
+
+    .paths{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .path{
+      background:#0a0a0a;
+      border-radius:6px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    .path-title{
+      font-size:11px;
+      color:#777;
+      margin-bottom:5px;
+      text-transform:uppercase;
+    }
+
+    .path-value{
+      font-size:12px;
+      color:#1aff9c;
+      word-break:break-all;
+    }
+
+    @media(max-width:700px){
+
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+      .paths{
+        grid-template-columns:1fr;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <div class="terminal">root@memo:~$</div>
+      <h1><span>SysAdmin</span> MémoFiches</h1>
+    </div>
+
+    <div class="cards">
+
+      <!-- CARD 1 -->
+
+      <div class="card teal">
+
+        <div class="card-header">
+          <div>🐧</div>
+          <h2>Linux & Apache</h2>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Commandes Linux</div>
+
+          <div class="command">
+            <div class="command-label">Navigation</div>
+            <code>cd /etc/apache2</code>
+          </div>
+
+          <div class="command">
+            <div class="command-label">Listing</div>
+            <code>ls -lh</code>
+          </div>
+
+          <div class="command">
+            <div class="command-label">Édition</div>
+            <code>sudo nano fichier.conf</code>
+          </div>
+
+        </div>
+
+        <div class="section">
+          <div class="section-title">Gestion Apache</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Commande</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Démarrer</td>
+                <td>sudo systemctl start apache2</td>
+              </tr>
+
+              <tr>
+                <td>Redémarrer</td>
+                <td>sudo systemctl restart apache2</td>
+              </tr>
+
+              <tr>
+                <td>Status</td>
+                <td>sudo systemctl status apache2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Chemins utiles</div>
+
+          <div class="paths">
+
+            <div class="path">
+              <div class="path-title">Configurations</div>
+              <div class="path-value">/etc/apache2/</div>
+            </div>
+
+            <div class="path">
+              <div class="path-title">Logs</div>
+              <div class="path-value">/var/log/apache2/</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CARD 2 -->
+
+      <div class="card amber">
+
+        <div class="card-header">
+          <div>🌐</div>
+          <h2>Reverse Proxy</h2>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Modules Apache</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Commande</th>
+                <th>Rôle</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>sudo a2enmod proxy</td>
+                <td>Active le proxy</td>
+              </tr>
+
+              <tr>
+                <td>sudo a2enmod proxy_http</td>
+                <td>Support HTTP</td>
+              </tr>
+
+              <tr>
+                <td>sudo a2enmod proxy_balancer</td>
+                <td>Load balancing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Configuration ProxyPass</div>
+
+<pre><code>ProxyPreserveHost On
+ProxyPass / http://127.0.0.1:8080/
+ProxyPassReverse / http://127.0.0.1:8080/</code></pre>
+
+        </div>
+
+        <div class="section">
+          <div class="section-title">Tests réseau</div>
+
+          <div class="command">
+            <div class="command-label">Port</div>
+            <code>nc -zv 127.0.0.1 8080</code>
+          </div>
+
+          <div class="command">
+            <div class="command-label">HTTP</div>
+            <code>curl -I http://127.0.0.1:8080</code>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CARD 3 -->
+
+      <div class="card coral">
+
+        <div class="card-header">
+          <div>🔍</div>
+          <h2>DNS Autoritaire (BIND9)</h2>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Installation</div>
+
+          <div class="command">
+            <div class="command-label">APT</div>
+            <code>sudo apt install bind9 bind9utils</code>
+          </div>
+
+        </div>
+
+        <div class="section">
+          <div class="section-title">Zone DNS</div>
+
+<pre><code>zone "mon-domaine.lan" {
+    type master;
+    file "/etc/bind/db.mon-domaine.lan";
+};</code></pre>
+
+        </div>
+
+        <div class="section">
+          <div class="section-title">Diagnostic DIG</div>
+
+          <div class="command">
+            <div class="command-label">Test local</div>
+            <code>dig @localhost www.mon-domaine.lan</code>
+          </div>
+
+          <div class="command">
+            <div class="command-label">SOA</div>
+            <code>dig mon-domaine.lan SOA</code>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
